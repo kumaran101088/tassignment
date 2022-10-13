@@ -5,7 +5,7 @@ const trash = document.querySelectorAll('.fa-trash');
             
             let primaryKey = e.target.parentElement.parentElement.parentElement.firstElementChild.textContent;
 
-            fetch(`http://127.0.0.1:8000/delete/${primaryKey}`, {method : 'DELETE'})
+            fetch(`https://sample-groi.el.r.appspot.com/delete/${primaryKey}`, {method : 'DELETE'})
                 .then((data) => {
                     if (data['status'] === 204) {
                         window.location.reload();
@@ -77,7 +77,7 @@ const trash = document.querySelectorAll('.fa-trash');
                 date : dateInput.value
             })
         };          
-        fetch(`http://127.0.0.1:8000/update/${Number(toBeUpdated)}`, requestOptions)
+        fetch(`https://sample-groi.el.r.appspot.com/update/${Number(toBeUpdated)}`, requestOptions)
             .then(result => {
                 if (result['status'] === 201) {
                     window.location.reload();
