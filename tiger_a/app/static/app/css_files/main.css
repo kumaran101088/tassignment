@@ -1,0 +1,20 @@
+table, th, td {
+    border: 1px solid;
+    padding: 0.5rem;
+    border-collapse: collapse;
+}
+.paginator{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+#product{
+    width: 40vw;
+}
+#update-button, #reset-button{
+    background-color: #000;
+    color: #fff;
+    padding: 0.15rem 0.75rem 0.25rem 0.75rem;
+    margin-left: 1rem;
+}

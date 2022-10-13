@@ -1,0 +1,107 @@
+{% load static %}
+{% load extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'app/css_files/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Home</title>
+</head>
+<body>
+    <h3>Upload Product/Products</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="file" id="file">
+        <button type="submit" id="upload" style="cursor:pointer;">Upload</button>
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color:#c92a2a;font-weight:bold;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    </form>
+    <br>
+    <hr id="first">
+    <h3>Search Product</h3>
+    <form method="get">
+        <label for="id_product__icontains">Product:</label>
+        {{ filter.form.product__icontains }}
+        <label for="id_store__iexact">Store:</label>
+        {{ filter.form.store__iexact }}
+        <label for="id_sku__iexact">SKU:</label>
+        {{ filter.form.sku__iexact }}
+        <label for="id_date">Date:</label>
+        <input type="date" name="date" id="id_date">
+        <label for="id_price__gte">Price gte:</label>
+        {{ filter.form.price__gte }}
+        <label for="id_price__lte">Price lte:</label>
+        {{ filter.form.price__lte }}
+        <button type="submit" style="cursor:pointer;">Search</button>
+        <button type="reset" id="reset-search" style="cursor:pointer;">Reset</button>
+    </form>
+    <br>
+    <hr id="second">
+    <h3>Update Product</h3>
+    <form>
+        {% csrf_token %}
+        <label for="store">Store:</label>
+        <input type="text" name="store" id="store">
+        <label for="sku">SKU:</label>
+        <input type="text" name="sku" id="sku">
+        <label for="price">Price:</label>
+        <input type="text" name="price" id="price">
+        <label for="date">Date:</label>
+        <input type="date" name="date" id="date">
+        <br><br>
+        <label for="product">Product:</label>
+        <input type="text" name="product" id="product">
+        <a id="update-button" style="cursor:pointer;">Update</a>
+        <a id="reset-button" style="cursor:pointer;">Reset</a>
+    </form>
+    <br>
+    <hr id="third">
+    <h3>Products</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Store</th>
+                <th>SKU</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+    {% for product in page_object.object_list %}
+        <tbody>
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.store }}</td>
+                <td>{{ product.sku }}</td>
+                <td>{{ product.product }}</td>
+                <td>${{ product.price }}</td>
+                <td>{{ product.date }}</td>
+                <td><a href="#"><i class="fa fa-pencil" aria-hidden="true" style="color:#0ca678;"></i></a></td>
+                <td><a href="#"><i class="fa fa-trash" aria-hidden="true" style="color:#e03131;"></i></a></td>
+            </tr>
+        </tbody>
+    {% endfor %}
+    </table>
+    <br>
+    <div class="paginator">
+        {% if page_object.has_previous %}
+            <a href="{% pagination_fast None request.GET.urlencode page_object.number %}"><i class="fa fa-fast-backward" aria-hidden="true"></i></a>
+            <a href="{% pagination_slow 'previous' request.GET.urlencode page_object.number %}"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
+        {% endif %}
+        <p>{{ page_object.number }} of {{ page_object.paginator.num_pages }}</p>
+        {% if page_object.has_next %}
+            <a href="{% pagination_slow 'next' request.GET.urlencode page_object.number %}"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+            <a href="{% pagination_fast page_object.paginator.num_pages request.GET.urlencode page_object.number %}"><i class="fa fa-fast-forward" aria-hidden="true"></i></a>
+        {% endif %}
+    </div>
+    {{ is_csv }}
+</body>
+<script src="{% static 'app/js_files/main.js' %}"></script>
+</html>
