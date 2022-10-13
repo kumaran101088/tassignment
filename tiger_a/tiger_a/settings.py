@@ -13,8 +13,6 @@ import os
 from pathlib import Path
 from google.cloud import secretmanager
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'sample-groi-adff3c5cb1d0.json'
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
